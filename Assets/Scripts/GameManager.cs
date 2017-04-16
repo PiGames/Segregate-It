@@ -7,8 +7,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    private List<Cannon> cannons = new List<Cannon>();
-    private List<Trash> trashes = new List<Trash>();
+    public List<Cannon> cannons = new List<Cannon>();
+    public List<Trash> trashes = new List<Trash>();
 
     private Stopwatch timer = new Stopwatch();
 

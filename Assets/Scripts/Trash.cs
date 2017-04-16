@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class Trash : MonoBehaviour
 {
-    public Trash(Vector2 InitialVelocity)
+    public Trash(Vector2 initialPosition, Vector2 initialVelocity)
     {
-        gameObject.GetComponent<Rigidbody2D>().velocity = InitialVelocity;
+        gameObject.GetComponent<Rigidbody2D>().velocity = initialVelocity;
+        gameObject.GetComponent<Rigidbody2D>().position = initialPosition;
     }
 
-	// Use this for initialization
-	void Start ()
+    // Use this for initialization
+    void Start ()
     {
 		
 	}

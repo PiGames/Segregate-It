@@ -23,6 +23,7 @@ public class Cannon : MonoBehaviour
     }
 
     public direction_t direction;
+    public int power;
 
     private Limits limits;
 
@@ -41,5 +42,6 @@ public class Cannon : MonoBehaviour
     public void Shoot()
     {
         int ankle = Random.Range(limits.down,limits.top+1);
+        GameManager.getInstance().trashes.Add(new Trash(gameObject.GetComponent<Rigidbody2D>().position,new Vector2(power * Mathf.Cos(ankle),power*Mathf.Sin(ankle))));
     }
 }
