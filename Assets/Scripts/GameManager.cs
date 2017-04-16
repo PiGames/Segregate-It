@@ -27,8 +27,10 @@ public class GameManager : MonoBehaviour
 
 
     // Use this for initialization
-    void Start ()
+    void Awake ()
     {
+        UnityEngine.Debug.LogWarning("awake");
+
         //Code checking if exist only one instance of class
         if (instance != null) Destroy(this);
         else instance = this;
@@ -48,6 +50,7 @@ public class GameManager : MonoBehaviour
             }
 
             timer.Reset();
+            timer.Start();
         }
 	}
 }

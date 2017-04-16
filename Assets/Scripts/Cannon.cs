@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Cannon : MonoBehaviour
 {
+    public GameObject prefab;
     public enum direction_t
     {
         RIGHT,
@@ -30,8 +31,12 @@ public class Cannon : MonoBehaviour
 	// Use this for initialization
 	void Start ()
     {
-        this.limits = new Limits(30, 60);	
-	}
+        UnityEngine.Debug.LogWarning("CANNON");
+
+        this.limits = new Limits(30, 60);
+        GameManager.getInstance().cannons.Add(this);
+
+    }
 	
 	// Update is called once per frame
 	void Update ()
@@ -41,7 +46,14 @@ public class Cannon : MonoBehaviour
 
     public void Shoot()
     {
+        UnityEngine.Debug.LogWarning("szczelam");
         int ankle = Random.Range(limits.down,limits.top+1);
-        GameManager.getInstance().trashes.Add(new Trash(gameObject.GetComponent<Rigidbody2D>().position,new Vector2(power * Mathf.Cos(ankle),power*Mathf.Sin(ankle))));
+
+        GameObject newTrash = Instantiate(prefab, gameObject.GetComponent<Transform>().position, Quaternion.identity) as GameObject;
+        GameManager.getInstance().trashes.Add(newTrash.GetComponent<Trash>());
+
+        int alternate = direction == direction_t.RIGHT ? 1 : -1;
+
+        newTrash.GetComponent<Trash>().setParameters(gameObject.GetComponent<Rigidbody2D>().position, new Vector2(alternate * power * Mathf.Cos(Mathf.Deg2Rad*ankle), power * Mathf.Sin(Mathf.Deg2Rad * ankle)));
     }
 }
