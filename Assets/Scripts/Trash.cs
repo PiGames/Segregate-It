@@ -5,6 +5,15 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class Trash : MonoBehaviour
 {
+    public enum Type
+    {
+        Paper,
+        Plastic,
+        Aluminum,
+        Glass
+    }
+
+    public Type type;
     // Use this for initialization
     void Start ()
     {	
