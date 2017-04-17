@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class Trash : MonoBehaviour
+public class Junk : MonoBehaviour
 {
     public enum Type
     {

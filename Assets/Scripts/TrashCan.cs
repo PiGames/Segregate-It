@@ -8,20 +8,20 @@ public class TrashCan : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.GetComponent<Trash>())
+        if (collider.GetComponent<Junk>())
         {
-            switch (collider.GetComponent<Trash>().type)
+            switch (collider.GetComponent<Junk>().type)
             {
-                case Trash.Type.Aluminum:
+                case Junk.Type.Aluminum:
                     AluminumJunkNumber++;
                     break;
-                case Trash.Type.Glass:
+                case Junk.Type.Glass:
                     GlassJunkNumber++;
                     break;
-                case Trash.Type.Paper:
+                case Junk.Type.Paper:
                     PaperJunkNumber++;
                     break;
-                case Trash.Type.Plastic:
+                case Junk.Type.Plastic:
                     PlasticJunkNumber++;
                     break;
             }

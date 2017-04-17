@@ -8,9 +8,11 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     public List<Cannon> cannons = new List<Cannon>();
-    public List<Trash> trashes = new List<Trash>();
+    public List<Junk> trash = new List<Junk>();
 
     private Stopwatch timer = new Stopwatch();
+
+    private int points = new int();
 
     public int interval;
 
@@ -29,12 +31,12 @@ public class GameManager : MonoBehaviour
     // Use this for initialization
     void Awake ()
     {
-        UnityEngine.Debug.LogWarning("awake");
-
         //Code checking if exist only one instance of class
         if (instance != null) Destroy(this);
         else instance = this;
         //
+
+        points = 0;
 
         timer.Start();
 	}
@@ -53,4 +55,9 @@ public class GameManager : MonoBehaviour
             timer.Start();
         }
 	}
+
+    public void addPoint()
+    {
+        points++;
+    }
 }
