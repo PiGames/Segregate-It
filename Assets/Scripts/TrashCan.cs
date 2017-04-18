@@ -5,6 +5,7 @@ using UnityEngine;
 public class TrashCan : MonoBehaviour
 {
     public int PlasticJunkNumber = 0, AluminumJunkNumber = 0, GlassJunkNumber = 0, PaperJunkNumber = 0;
+    public Junk.Type TrashCanType;
 
     void OnTriggerEnter2D(Collider2D collider)
     {
@@ -26,5 +27,6 @@ public class TrashCan : MonoBehaviour
                     break;
             }
         }
+        Destroy(collider.gameObject);
     }
 }
