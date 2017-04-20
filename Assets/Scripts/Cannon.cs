@@ -12,18 +12,12 @@ public class Cannon : MonoBehaviour
         LEFT
     }
 
-    public enum rotation_direction_t
-    {
-        RIGHT = -1,
-        LEFT = 1
-    }
-
-    private struct Limits
+    private struct limit_t
     {
         public int down;
         public int top;
 
-        public Limits(int limitDown, int limitTop)
+        public limit_t(int limitDown, int limitTop)
         {
             this.down = limitDown;
             this.top = limitTop;
@@ -33,65 +27,57 @@ public class Cannon : MonoBehaviour
     public shoot_direction_t shootDir;
  
     public int power;
-    public float timeRotation;
 
-    private Limits limits;
-    private int ankle;
+    private limit_t limits;
+    private Quaternion targetAnkle;
 
     private float angularVelocity = new float();
     private int alternate = new int();
-    private float desiredRot = new float();
-    private rotation_direction_t rotatingDir;
 
     // Use this for initialization
-    void Start ()
+    void Start()
     {
-        this.limits = new Limits(30, 60);
+        this.limits = new limit_t(30, 60);
         GameManager.getInstance().cannons.Add(this);
-        ankle = Random.Range(limits.down, limits.top + 1);
+        targetAnkle = new Quaternion(0, 0, Random.Range(limits.down, limits.top + 1), 0);
 
-        if(timeRotation>GameManager.getInstance().interval)
-        {
-            timeRotation = GameManager.getInstance().interval;
-        }
     }
-
     // Update is called once per frame
     void Update()
     {
-        // gameObject.GetComponentInChildren<Transform>().rotation = 
-        //Quaternion.LookRotation(Vector3.RotateTowards(gameObject.GetComponent<Transform>().rotation.eulerAngles, new Vector3(0, 0, ankle), angularVelocity, 0X0F));
-        //gameObject.GetComponent<Transform>().rotation = new Quaternion(0, 0, 0, 0);
-
         var spriteTransform = GetComponentInChildren<Transform>();
-
-        desiredRot += angularVelocity * Time.deltaTime * (int)rotatingDir;
-        
-
-        var desiredRotQ = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, desiredRot);
-
-
-        spriteTransform.rotation = Quaternion.Euler(spriteTransform.eulerAngles.x, spriteTransform.eulerAngles.y, desiredRot);
+        spriteTransform.rotation = Quaternion.Lerp(GetComponentInChildren<Transform>().rotation, targetAnkle , Time.time * angularVelocity);
     }
-
 
     public void Shoot()
     {
         //Current object
+        shootCurrentJunk();
+        //Next object
+        prepareNextJunk();
+    }
+
+    private void shootCurrentJunk()
+    {
         GameObject newTrash = Instantiate(prefab, gameObject.GetComponent<Transform>().position, Quaternion.identity) as GameObject;
         GameManager.getInstance().trash.Add(newTrash.GetComponent<Junk>());
         alternate = shootDir == shoot_direction_t.RIGHT ? 1 : -1;
-        newTrash.GetComponent<Junk>().setParameters(gameObject.GetComponent<Rigidbody2D>().position, new Vector2(alternate * power * Mathf.Cos(Mathf.Deg2Rad * ankle), power * Mathf.Sin(Mathf.Deg2Rad * ankle)));
+        newTrash.GetComponent<Junk>().setParameters(gameObject.GetComponent<Rigidbody2D>().position, new Vector2(alternate * power * Mathf.Cos(Mathf.Deg2Rad * targetAnkle.z), power * Mathf.Sin(Mathf.Deg2Rad * targetAnkle.z)));
+    }
 
-        //Next object
+    private void prepareNextJunk()
+    {
         var spriteTransform = GetComponentInChildren<Transform>();
 
-        ankle = Random.Range(limits.down,limits.top+1);
-        rotatingDir = ankle > spriteTransform.rotation.eulerAngles.z ? rotation_direction_t.LEFT : rotation_direction_t.RIGHT;
-        angularVelocity = Mathf.Deg2Rad*Quaternion.Angle(new Quaternion(0, ankle,0,0),gameObject.GetComponent<Transform>().rotation) / timeRotation;
+        targetAnkle = new Quaternion(0, 0, Random.Range(limits.down, limits.top + 1), 0);
 
-        Debug.LogWarning("angular set " + Quaternion.Angle(new Quaternion(0, 0, ankle, 0), gameObject.GetComponent<Transform>().rotation).ToString());
+        if (shootDir == shoot_direction_t.LEFT)
+            targetAnkle.z += 90;
 
-        alternate = gameObject.GetComponent<Rigidbody2D>().rotation > ankle ? -1 : 1;
-     }
+        Debug.LogWarning("rotacja bazowa: " + spriteTransform.rotation);
+        angularVelocity = Quaternion.Angle(spriteTransform.rotation, targetAnkle) / GameManager.getInstance().interval;
+        Debug.LogWarning("angular set " + Quaternion.Angle(targetAnkle, gameObject.GetComponentInChildren<Transform>().rotation).ToString());
+        Debug.LogWarning("targetAngle set " + targetAnkle.z);
+        Debug.LogWarning("angularVelocity set " + angularVelocity);
+    }
 }
