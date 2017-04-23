@@ -14,6 +14,9 @@ public class GameManager : MonoBehaviour
 
     private int points = new int();
 
+    public GameObject MainMenu;
+    public GameObject GameOverMenu;
+
     public int interval;
 
     //Singleton
@@ -59,5 +62,22 @@ public class GameManager : MonoBehaviour
     public void addPoint()
     {
         points++;
+    }
+
+    public void GameOver()
+    {
+        GameOverMenu.SetActive(true);
+        MainMenu.SetActive(false);
+    }
+
+    public void ReturnToMenu()
+    {
+        MainMenu.SetActive(true);
+        GameOverMenu.SetActive(false);
+    }
+    public void GameStart()
+    {
+        GameOverMenu.SetActive(false);
+        MainMenu.SetActive(false);
     }
 }

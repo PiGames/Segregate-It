@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Cannon : MonoBehaviour
 {
-    public GameObject prefab;
+    public List<GameObject> TrashPrefabs;
 
     public enum shoot_direction_t
     {
@@ -40,13 +40,13 @@ public class Cannon : MonoBehaviour
         this.limits = new limit_t(30, 60);
         GameManager.getInstance().cannons.Add(this);
         targetAnkle = new Quaternion(0, 0, Random.Range(limits.down, limits.top + 1), 0);
-
+        prepareNextJunk();
     }
     // Update is called once per frame
     void Update()
     {
-        var spriteTransform = GetComponentInChildren<Transform>();
-        spriteTransform.rotation = Quaternion.Lerp(GetComponentInChildren<Transform>().rotation, targetAnkle , Time.time * angularVelocity);
+        //var spriteTransform = GetComponentInChildren<Transform>();
+        //spriteTransform.rotation = Quaternion.Lerp(GetComponentInChildren<Transform>().rotation, targetAnkle , Time.time * angularVelocity);
     }
 
     public void Shoot()
@@ -54,30 +54,32 @@ public class Cannon : MonoBehaviour
         //Current object
         shootCurrentJunk();
         //Next object
-        prepareNextJunk();
+        Invoke("prepareNextJunk", 1);
     }
 
     private void shootCurrentJunk()
     {
-        GameObject newTrash = Instantiate(prefab, gameObject.GetComponent<Transform>().position, Quaternion.identity) as GameObject;
+        GameObject newTrash = Instantiate(TrashPrefabs[Random.Range(0,TrashPrefabs.Count)], gameObject.GetComponent<Transform>().position, Quaternion.identity) as GameObject;
         GameManager.getInstance().trash.Add(newTrash.GetComponent<Junk>());
-        alternate = shootDir == shoot_direction_t.RIGHT ? 1 : -1;
+        alternate = 1;//shootDir == shoot_direction_t.RIGHT ? 1 : -1;
         newTrash.GetComponent<Junk>().setParameters(gameObject.GetComponent<Rigidbody2D>().position, new Vector2(alternate * power * Mathf.Cos(Mathf.Deg2Rad * targetAnkle.z), power * Mathf.Sin(Mathf.Deg2Rad * targetAnkle.z)));
+        
     }
 
     private void prepareNextJunk()
     {
-        var spriteTransform = GetComponentInChildren<Transform>();
+        //var spriteTransform = GetComponentInChildren<Transform>();
 
         targetAnkle = new Quaternion(0, 0, Random.Range(limits.down, limits.top + 1), 0);
 
         if (shootDir == shoot_direction_t.LEFT)
             targetAnkle.z += 90;
 
-        Debug.LogWarning("rotacja bazowa: " + spriteTransform.rotation);
-        angularVelocity = Quaternion.Angle(spriteTransform.rotation, targetAnkle) / GameManager.getInstance().interval;
+        //Debug.LogWarning("rotacja bazowa: " + spriteTransform.rotation);
+        //angularVelocity = Quaternion.Angle(spriteTransform.rotation, targetAnkle) / GameManager.getInstance().interval;
         Debug.LogWarning("angular set " + Quaternion.Angle(targetAnkle, gameObject.GetComponentInChildren<Transform>().rotation).ToString());
         Debug.LogWarning("targetAngle set " + targetAnkle.z);
         Debug.LogWarning("angularVelocity set " + angularVelocity);
+        transform.eulerAngles = new Vector3(0f, 0f, targetAnkle.z);
     }
 }

@@ -28,5 +28,6 @@ public class TrashCan : MonoBehaviour
             }
         }
         Destroy(collider.gameObject);
+        if(collider.GetComponent<Junk>().type != TrashCanType) GameManager.getInstance().GameOver();
     }
 }

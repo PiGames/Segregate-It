@@ -24,6 +24,13 @@ public class Junk : MonoBehaviour
     {
 	}
 
+    void OnMouseDrag()
+    {
+        transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10.0f));
+        GetComponentInParent<Rigidbody2D>().velocity = Vector3.zero;
+    }
+
+
     public void setParameters(Vector2 initialPosition, Vector2 initialVelocity)
     {
         GetComponentInParent<Rigidbody2D>().velocity = initialVelocity;
