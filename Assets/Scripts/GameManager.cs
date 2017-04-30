@@ -10,14 +10,10 @@ public class GameManager : MonoBehaviour
     public List<Cannon> cannons = new List<Cannon>();
     public List<Junk> trash = new List<Junk>();
 
-    private Stopwatch timer = new Stopwatch();
-
     private int points = new int();
 
     public GameObject MainMenu;
     public GameObject GameOverMenu;
-
-    public int interval;
 
     //Singleton
     public static GameManager getInstance()
@@ -40,23 +36,16 @@ public class GameManager : MonoBehaviour
         //
 
         points = 0;
-
-        timer.Start();
 	}
 	
 	// Update is called once per frame
 	void Update ()
     {
-		if(timer.Elapsed.Seconds>interval)
+        foreach(var cannon in cannons)
         {
-            foreach(var cannon in cannons)
-            {
-                cannon.Shoot();
-            }
-
-            timer.Reset();
-            timer.Start();
+            cannon.TryShoot();
         }
+        
 	}
 
     public void addPoint()
