@@ -28,7 +28,11 @@ public class Junk : MonoBehaviour
     {
         transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10.0f));
         GetComponentInParent<Rigidbody2D>().velocity = Vector3.zero;
-        GetComponentInParent<Rotatable>().stopRotating();
+
+        var rotatableComponent = GetComponentInParent<Rotatable>();
+
+        if (rotatableComponent != null)
+            rotatableComponent.stopRotating();
     }
 
 
