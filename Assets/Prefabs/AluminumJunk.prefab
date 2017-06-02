@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 61230782718797786}
   - component: {fileID: 50423892635942886}
   - component: {fileID: 114344345309019338}
+  - component: {fileID: 114295944889704362}
   m_Layer: 0
   m_Name: AluminumJunk
   m_TagString: Untagged
@@ -77,6 +78,20 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Size: {x: 1.19, y: 1.88}
+--- !u!114 &114295944889704362
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1828255022429928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72e6d402d7184d443a62350d0e747c62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotateX: 0
+  rotateY: 0
+  rotateZ: 4
 --- !u!114 &114344345309019338
 MonoBehaviour:
   m_ObjectHideFlags: 1

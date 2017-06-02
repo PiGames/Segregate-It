@@ -101,6 +101,7 @@ MonoBehaviour:
   AluminumJunkNumber: 0
   GlassJunkNumber: 0
   PaperJunkNumber: 0
+  TrashCanType: 0
 --- !u!212 &212537236187829748
 SpriteRenderer:
   m_ObjectHideFlags: 1

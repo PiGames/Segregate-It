@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 50321090829241620}
   - component: {fileID: 114289243603673082}
   - component: {fileID: 61148919388187932}
+  - component: {fileID: 114468270221497540}
   m_Layer: 0
   m_Name: PaperJunk
   m_TagString: Untagged
@@ -89,6 +90,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
+--- !u!114 &114468270221497540
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1125316512348098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72e6d402d7184d443a62350d0e747c62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotateX: 0
+  rotateY: 0
+  rotateZ: 4
 --- !u!212 &212729795462525284
 SpriteRenderer:
   m_ObjectHideFlags: 1
