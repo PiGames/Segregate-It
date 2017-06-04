@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using Assets.Scripts;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
+
 
 public class Cannon : MonoBehaviour
 {
@@ -13,29 +15,13 @@ public class Cannon : MonoBehaviour
         LEFT
     }
 
-    private struct limit_t
-    {
-        public int down;
-        public int top;
-
-        public limit_t(int limitDown, int limitTop)
-        {
-            this.down = limitDown;
-            this.top = limitTop;
-        }
-    }
 
     public shoot_direction_t shootDir;
- 
     public int power;
-
     private limit_t limits;
     private Quaternion targetAnkle;
-
     private float interval = new float();
-
     private int alternate = new int();
-
     private Stopwatch timer = new Stopwatch();
 
     // Use this for initialization
@@ -45,20 +31,14 @@ public class Cannon : MonoBehaviour
 
         if (shootDir == shoot_direction_t.LEFT)
         {
-            limits.top -= 45;
-            limits.down -= 45;
+            limits -= new limit_t(45, 45);
         }
 
         GameManager.getInstance().cannons.Add(this);
         targetAnkle = new Quaternion(0, 0, Random.Range(limits.down, limits.top + 1), 0);
-
-        interval = Random.Range(20, 30) / 10f;
-
-        UnityEngine.Debug.LogWarning(interval);
-
+        interval = Random.Range(40, 50) / 10f;
         prepareNextJunk();
-
-        timer.Start();
+        Invoke("Shoot", Random.Range(15, 25) / 10f);
     }
 
     // Update is called once per frame
@@ -72,6 +52,10 @@ public class Cannon : MonoBehaviour
         shootCurrentJunk();
         //Next object
         Invoke("prepareNextJunk", 1);
+
+        //prepare timer
+        timer.Reset();
+        timer.Start();
     }
 
     private void shootCurrentJunk()
@@ -96,11 +80,9 @@ public class Cannon : MonoBehaviour
 
     public void TryShoot()
     {
-        if (timer.Elapsed.Seconds > interval)
+        if (timer.Elapsed.TotalMilliseconds> interval*1000)
         { 
             this.Shoot();
-            timer.Reset();
-            timer.Start();
         }
     }
 }
